@@ -1,0 +1,70 @@
+<!-- hui html整页 -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>播放</title>
+    <meta charset="utf-8" content="感谢百小僧开发这么好的UI框架" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1,minimum-scale=1,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link type="text/css" href="../../css/hui.css" rel="stylesheet" />
+    <style type="text/css">
+        body{
+            min-height: 100vh;
+            width: 100vw;
+        }
+    </style>
+</head>
+<body class="hui-background-color-white">
+    <div id="app">
+        <div class="hui-input-row hui-flexbox-row hui-col-middle hui-max-width-full hui-padding-all-8 hui-background-color-white">
+            <label class="hui-font-size-16 hui-font-color-ccc">地址：</label>
+            <div class="hui-input-container hui-flexbox-item">
+                <input type="text" placeholder="播放地址..." v-model="url" class="hui-input hui-width-full hui-background-color-transparent hui-border-outline-none hui-font-size-16 hui-vertical-align-middle" />
+            </div>
+            <label @click="switch" class="hui-font-size-16 hui-font-color-emerald">切换</label>
+        </div>
+    </div>
+    
+   
+    <script type="text/javascript" src="../../script/hui.js"></script>
+    <script type="text/javascript" src="../../script/vue.min.js"></script>
+    <script type="text/javascript">
+    	hui.ready(function(){
+    		var player = hui.require('playModule');
+            player.init();
+            // 默认直接播放默认地址
+            player.play({
+                rect:{
+                    x:0,
+                    y:100,
+                    w:375,
+                    h:200
+                },
+                fixedOn:'play_body',
+                title:'测试直播',
+                url:'' //拉流地址，和推流地址一样
+            },function(ret , err){
+                (ret.status == true) ? hui.toast('播放成功！') : alert(err.msg);
+            })
+            var app = new Vue({
+                el:'#app',
+                data:{
+                    url:'http://120.24.217.142/jiwei/'
+                },
+                methods:{
+                    switch:function(){
+                        player.playUrl({
+                            title:this.url,
+                            url:this.url,
+                            defaultBtn:true
+                        },function(ret , err){
+                            (ret.status == true) ? hui.toast('切换成功！') : alert(err.msg);            
+                        });
+                    }
+                }
+            });
+    	});
+    </script>
+</body>
+</html>
